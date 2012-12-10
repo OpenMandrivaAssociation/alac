@@ -113,3 +113,10 @@ done
 %defattr(-,root,root)
 %{_bindir}/alacconvert
 %doc ReadMe.txt ALACMagicCookieDescription.txt LICENSE
+
+
+%changelog
+* Tue Nov 01 2011 Andrey Smirnov <asmirnov@mandriva.org> 0.1-1.20111026mdv2012.0
++ Revision: 709300
+- imported package alac
+
