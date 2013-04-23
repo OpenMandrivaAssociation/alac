@@ -1,17 +1,16 @@
-%define name            alac
-%define libname         %mklibname %name
-%define develname       %mklibname -d %name
-%define stdevelname     %mklibname -d -s %name
+%define major 0
+%define libname %mklibname %{name} %{major}
+%define devname %mklibname -d %{name}
 
-Name:           %name
-Version:        0.1
-Release:        %mkrel 1.20111026
-Group:          Sound
-Summary:        Apple Lossless Audio Codec (ALAC)
-License:        Apache License
-URL:            http://alac.macosforge.org/
-Source0:        %{name}-%{version}.tar.xz
-Patch0:         alac-0.1-makefile.patch
+Summary:	Apple Lossless Audio Codec (ALAC)
+Name:		alac
+Version:	0.1
+Release:	1.20111026.2
+Group:		Sound
+License:	Apple Public Source License
+Url:		http://alac.macosforge.org/
+Source0:	%{name}-%{version}.tar.xz
+Patch0:		alac-0.1-makefile.patch
 
 %description
 The Apple Lossless Audio Codec (ALAC) is an audio codec developed by Apple and
@@ -20,38 +19,25 @@ compression method which reduces the size of audio files with no loss
 of information.  A decoded ALAC stream is bit-for-bit identical to the original
 uncompressed audio file.
 
-%package -n %libname
-Summary:        Apple Lossless Audio Codec
-Group:          System/Libraries
-License:        Apple Public Source License
+%package -n %{libname}
+Summary:	Apple Lossless Audio Codec
+Group:		System/Libraries
+Obsoletes:	%{_lib}name < 0.1-1.20111026.2
 
-%description -n %libname
+%description -n %{libname}
 The Apple Lossless Audio Codec (ALAC) is an audio codec developed by Apple and
 supported on iPhone, iPad, most iPods, Mac and iTunes.  ALAC is a data
 compression method which reduces the size of audio files with no loss
 of information.  A decoded ALAC stream is bit-for-bit identical to the original
 uncompressed audio file.
 
-%package -n %develname
-Summary:        Apple Lossless Audio Codec
-Group:          Development/C++
-Requires:       %libname = %{version}
-License:        Apple Public Source License
+%package -n %{devname}
+Summary:	Apple Lossless Audio Codec
+Group:		Development/C++
+Requires:	%{libname} = %{version}-%{release}
+Obsoletes:	%{_lib}alac-static-devel < 0.1-1.20111026.2
 
-%description -n %develname
-The Apple Lossless Audio Codec (ALAC) is an audio codec developed by Apple and
-supported on iPhone, iPad, most iPods, Mac and iTunes.  ALAC is a data
-compression method which reduces the size of audio files with no loss
-of information.  A decoded ALAC stream is bit-for-bit identical to the original
-uncompressed audio file.
-
-%package -n %stdevelname
-Summary:        Apple Lossless Audio Codec
-Group:          Development/C++
-Requires:       %develname
-License:        Apple Public Source License
-
-%description -n %stdevelname
+%description -n %{devname}
 The Apple Lossless Audio Codec (ALAC) is an audio codec developed by Apple and
 supported on iPhone, iPad, most iPods, Mac and iTunes.  ALAC is a data
 compression method which reduces the size of audio files with no loss
@@ -59,8 +45,8 @@ of information.  A decoded ALAC stream is bit-for-bit identical to the original
 uncompressed audio file.
 
 %package -n alacconvert
-Summary:        Apple Lossless Audio Codec
-Group:          Sound
+Summary:	Apple Lossless Audio Codec
+Group:		Sound
 
 %description -n alacconvert
 The Apple Lossless Audio Codec (ALAC) is an audio codec developed by Apple and
@@ -77,46 +63,29 @@ This package contains a command-line utility to convert the ALAC format.
 
 %build
 for d in codec convert-utility; do
-    %__make -C "$d" \
+    make -C "$d" \
         OPTFLAGS="%{optflags}" \
         CC="%__cxx"
 done
 
 %install
-%__install -D -m0755 convert-utility/alacconvert "%{buildroot}%{_bindir}/alacconvert"
+install -D -m0755 convert-utility/alacconvert %{buildroot}%{_bindir}/alacconvert
 
-%__install -d "%{buildroot}%{_includedir}"
-%__cp -a codec/*.h "%{buildroot}%{_includedir}/"
+install -d %{buildroot}%{_includedir}
+cp -a codec/*.h %{buildroot}%{_includedir}/
 
-%__install -D -m0644 codec/libalac.a "%{buildroot}%{_libdir}/libalac.a"
-%__cp -a codec/libalac.so* "%{buildroot}%{_libdir}/"
+install -d %{buildroot}%{_libdir}
+cp -a codec/libalac.so* %{buildroot}%{_libdir}/
 
-%clean
-%{?buildroot:%__rm -rf "%{buildroot}"}
-
-%files -n %libname
-%defattr(-,root,root)
+%files -n %{libname}
 %doc codec/APPLE_LICENSE.txt
-%{_libdir}/libalac.so.0
-%{_libdir}/libalac.so.0.1
+%{_libdir}/libalac.so.%{major}*
 
-%files -n %develname
-%defattr(-,root,root)
+%files -n %{devname}
 %{_includedir}/*.h
 %{_libdir}/libalac.so
 
-%files -n %stdevelname
-%defattr(-,root,root)
-%{_libdir}/libalac.a
-
 %files -n alacconvert
-%defattr(-,root,root)
-%{_bindir}/alacconvert
 %doc ReadMe.txt ALACMagicCookieDescription.txt LICENSE
-
-
-%changelog
-* Tue Nov 01 2011 Andrey Smirnov <asmirnov@mandriva.org> 0.1-1.20111026mdv2012.0
-+ Revision: 709300
-- imported package alac
+%{_bindir}/alacconvert
 
