@@ -5,7 +5,7 @@
 Summary:	Apple Lossless Audio Codec (ALAC)
 Name:		alac
 Version:	0.1
-Release:	1.20111026.2
+Release:	1.20111026.3
 Group:		Sound
 License:	Apple Public Source License
 Url:		http://alac.macosforge.org/
