@@ -4,12 +4,12 @@
 
 Summary:	Apple Lossless Audio Codec (ALAC)
 Name:		alac
-Version:	0.1
-Release:	1.20111026.3
+Version:	0.2.0
+Release:	1
 Group:		Sound
 License:	Apple Public Source License
 Url:		http://alac.macosforge.org/
-Source0:	%{name}-%{version}.tar.xz
+Source0:	https://github.com/macosforge/alac/archive/master/alac-20210101.tar.gz
 Patch0:		alac-0.1-makefile.patch
 
 %description
@@ -58,8 +58,7 @@ uncompressed audio file.
 This package contains a command-line utility to convert the ALAC format.
 
 %prep
-%setup -q
-%patch0
+%autosetup -p0 -n alac-master
 
 %build
 for d in codec convert-utility; do
