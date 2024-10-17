@@ -8,7 +8,7 @@ Version:	0.2.0
 Release:	1
 Group:		Sound
 License:	Apple Public Source License
-Url:		http://alac.macosforge.org/
+Url:		https://alac.macosforge.org/
 Source0:	https://github.com/macosforge/alac/archive/master/alac-20210101.tar.gz
 Patch0:		alac-0.1-makefile.patch
 
